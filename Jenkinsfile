@@ -21,7 +21,7 @@ pipeline{
         stage('test'){
             steps{
                 sh '''
-                    file -f public/index.html
+                    test -f public/index.html
                     npm test'
                 '''
             }
