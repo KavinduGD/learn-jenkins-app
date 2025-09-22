@@ -1,11 +1,12 @@
 pipeline{
-    agent { label 'slave-1' }
+    agent any
 
     stages{
-        stage('Hello'){
+        stage('build'){
             agent{
                 docker{
                     image 'node:18-alpine'
+                    label 'slave-1'
                     reuseNode true
                     args '-u root' 
                 }
