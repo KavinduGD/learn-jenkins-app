@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+
+        stage('pre') {
+            agent {
+                label 'master'    // force test stage to master
+            }
+            steps {
+                sh '''
+                touch test.txt
+                '''
+            }
+        }
+
         stage('build') {
             agent {
                 label 'slave-1'   // ensure this stage runs only on slave-1
