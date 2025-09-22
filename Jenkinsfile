@@ -1,46 +1,28 @@
-pipeline {
+pipeline{
     agent any
 
-    stages {
-
-        stage('pre') {
-            agent {
-                label 'master'    // force test stage to master
+    stages{
+        stage('build'){
+            agent{
+                docker{
+                    image 'node:18-alpine'
+                    reuseNode true
+                    args '-u root' 
+                }
             }
-            steps {
+            steps{
                 sh '''
-                touch test.txt
+                    npm ci 
+                    npm run build
                 '''
             }
         }
-
-        stage('build') {
-            agent {
-                label 'slave-1'   // ensure this stage runs only on slave-1
-            }
-            steps {
-                script {
-                    docker.image('node:18-alpine').inside('-u root') {
-                        sh '''
-                            ls -la
-                            npm ci
-                            npm run build
-                            ls -la
-                        '''
-                    }
-                }
-            }
-        }
-
-        stage('test') {
-            agent {
-                label 'master'    // force test stage to master
-            }
-            steps {
+        
+        stage('test'){
+            steps{
                 sh '''
-                    hostname
-                    ls -la
-                    echo 'I am from master'
+                    test -f public/index.html
+                    npm test'
                 '''
             }
         }
