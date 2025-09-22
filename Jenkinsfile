@@ -24,7 +24,6 @@ pipeline{
         stage('test'){
             steps{
                 sh '''
-                    hostanme
                     ls -la
                     echo 'im from master'
                 '''
