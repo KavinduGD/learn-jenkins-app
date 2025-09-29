@@ -46,7 +46,7 @@ pipeline{
             steps{
                 sh '''
                     npm i -g serve
-                    server -s build
+                    serve -s build
                     npx plawright test
                 '''
             }
