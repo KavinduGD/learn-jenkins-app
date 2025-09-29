@@ -30,7 +30,7 @@ pipeline{
                 sh '''
                     test -f public/index.html
                     npm ci 
-                    npm test'
+                    npm test
                 '''
             }
         }
