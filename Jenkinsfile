@@ -48,7 +48,7 @@ pipeline{
                     npm i  serve
                     node_modules/.bin/serve -s build &
                     sleep 10
-                    npx plawright test
+                    npx playwright test
                 '''
             }
         }
