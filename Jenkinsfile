@@ -45,8 +45,8 @@ pipeline{
             }
             steps{
                 sh '''
-                    npm i -g serve
-                    serve -s build
+                    npm i  serve
+                    node_modules/.bin/serve -s build
                     npx plawright test
                 '''
             }
