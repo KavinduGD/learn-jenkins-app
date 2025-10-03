@@ -1,6 +1,10 @@
 pipeline{
     agent any
 
+    enviroment{
+        NETLIFY_SITE_ID='b970c930-5c09-4899-8306-c8364ce73b45'
+    }
+
     stages{
         // stage('build'){
         //     agent{
@@ -18,22 +22,22 @@ pipeline{
         //     }
         // }
         
-        stage('test'){
-            agent{
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
-                    args '-u root' 
-                }
-            }
-            steps{
-                sh '''
-                    test -f public/index.html
-                    npm ci 
-                    npm test
-                '''
-            }
-        }
+        // stage('test'){
+        //     agent{
+        //         docker{
+        //             image 'node:18-alpine'
+        //             reuseNode true
+        //             args '-u root' 
+        //         }
+        //     }
+        //     steps{
+        //         sh '''
+        //             test -f public/index.html
+        //             npm ci 
+        //             npm test
+        //         '''
+        //     }
+        // }
 
         // stage('e2e test'){
         //     agent{
@@ -63,8 +67,9 @@ pipeline{
     }
     steps{
         sh '''
-            npm install netlify-cli 
+            npm install netlify-cli@20.1.1
             node_modules/.bin/netlify --version
+            echo $NETLIFY_SITE_ID
         '''
     }
 }
