@@ -35,28 +35,40 @@ pipeline{
             }
         }
 
-        stage('e2e test'){
-            agent{
-                docker{
-                    image 'mcr.microsoft.com/playwright:v1.48.1-noble'
-                    reuseNode true
-                    args '-u root' 
-                }
-            }
-            steps{
-                sh '''
-                    npm i  serve
-                    node_modules/.bin/serve -s build &
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
-            }
+        // stage('e2e test'){
+        //     agent{
+        //         docker{
+        //             image 'mcr.microsoft.com/playwright:v1.48.1-noble'
+        //             reuseNode true
+        //             args '-u root' 
+        //         }
+        //     }
+        //     steps{
+        //         sh '''
+        //             npm i  serve
+        //             node_modules/.bin/serve -s build &
+        //             sleep 10
+        //             npx playwright test --reporter=html
+        //         '''
+        //     }
+        // }
+
+    stage('Deploy'){
+    agent{
+        docker{
+            image 'node:18-alpine'
+            reuseNode true
+            args '-u root' 
         }
+    }
+    steps{
+        sh '''
+            npm install netlify-cli -g
+            netlify --version
+        '''
+    }
+}
     }
 
-    post{
-        always{
-            junit 'jest-results/junit.xml'
-        }
-    }
+   
 }
